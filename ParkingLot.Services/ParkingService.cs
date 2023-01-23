@@ -7,32 +7,32 @@ using static System.Reflection.Metadata.BlobBuilder;
 
 namespace ParkingLot.Services
 {
-    public class ParkingService
+    public class ParkingService : IParkingService
     {
         ParkingSlots slots;
         public ParkingService(ParkingSlots slots)
         {
             this.slots = slots;
         }
-        public void SetSlots(int two,int four,int heavy)
+        public void SetSlots(int noOfTwoWheelerSlots,int noOfFourWheelerSlots,int noOfHeavyVehicleSlots)
         {
             Vehicle vehicle= new Vehicle();
-            slots.twoWheelerSlots = two;
-            slots.fourWheelerSlots = four;
-            slots.heavyVehicleSlots = heavy;
-            for (int i = 0; i < two; i++)
+            slots.noOfTwoWheelerSlots = noOfTwoWheelerSlots;
+            slots.noOfFourWheelerSlots = noOfFourWheelerSlots;
+            slots.noOfHeavyVehicleSlots = noOfHeavyVehicleSlots;
+            for (int i = 0; i < noOfTwoWheelerSlots; i++)
             {
-                slots.twoWheelerSlotsAvailable.Add(true);
+                slots.noOfTwoWheelerSlotsAvailable.Add(true);
             }
-            for (int i = 0; i < four; i++)
+            for (int i = 0; i < noOfFourWheelerSlots; i++)
             {
-                slots.fourWheelerSlotsAvailable.Add(true);
+                slots.noOfFourWheelerSlotsAvailable.Add(true);
             }
-            for (int i = 0; i < heavy; i++)
+            for (int i = 0; i < noOfHeavyVehicleSlots; i++)
             {
-                slots.heavyVehicleSlotsAvailable.Add(true);
+                slots.noOfHeavyVehicleSlotsAvailable.Add(true);
             }
-            int totalSlots=two+four+heavy;
+            int totalSlots=noOfTwoWheelerSlots +noOfFourWheelerSlots +noOfHeavyVehicleSlots;
             for(int i = 0; i < totalSlots; i++)
             {
                 slots.vehicles.Add(vehicle);
@@ -43,12 +43,12 @@ namespace ParkingLot.Services
             ParkingService setSlots=new ParkingService(slots);
             Console.WriteLine("Welcome to the parking");
             Console.WriteLine("Specify total number of Two wheeler slots");
-            int twoSlots=Convert.ToInt32(Console.ReadLine());
+            int noOfTwoWheelerSlots=Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Specify total number of Four wheeler slots");
-            int fourSlots=Convert.ToInt32(Console.ReadLine());
+            int noOfFourWheelerSlots = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Specify total number of Heavy Vehicle slots");
-            int heavySlots=Convert.ToInt32(Console.ReadLine());
-            setSlots.SetSlots(twoSlots, fourSlots,heavySlots);
+            int noOfHeavyVehicleSlots = Convert.ToInt32(Console.ReadLine());
+            setSlots.SetSlots(noOfTwoWheelerSlots, noOfFourWheelerSlots,noOfHeavyVehicleSlots);
         }
         public int EntryExit()
         {
@@ -67,7 +67,7 @@ namespace ParkingLot.Services
             }
             return 0;
         }
-        public void VehicleType() {
+        public void GetVehicleType() {
             Console.WriteLine("Choose the Vehicle Type from below");
             Console.WriteLine("1. Two Wheeler");
             Console.WriteLine("2. Four Wheeler");
@@ -76,7 +76,7 @@ namespace ParkingLot.Services
             Console.WriteLine();
             slots.vehicleType = vehicleType;
         }
-        public bool ValidVehicle(string str)
+        public bool IsValidVehicle(string str)
         {
             string pattern = @"^[A-Z]{2} [0-9]{2} [A-Z]{2} [0-9]{4}$";
             Regex regex = new Regex(pattern);
@@ -86,45 +86,45 @@ namespace ParkingLot.Services
             }
             return false;
         }
-        public bool GetEntry()
+        public bool CanVehicleEnter()
         {
             bool isAvailable=false;
             int availableSlot=100;
-            if (slots.vehicleType == Convert.ToInt32(VehicleTypes.twoWheeler))
+            if (slots.vehicleType == Convert.ToInt32(VehicleType.twoWheeler))
             {
-                for (int i = 0; i < slots.twoWheelerSlots; i++)
+                for (int i = 0; i < slots.noOfTwoWheelerSlots; i++)
                 {
-                    if (slots.twoWheelerSlotsAvailable[i] == true)
+                    if (slots.noOfTwoWheelerSlotsAvailable[i] == true)
                     {
-                        slots.twoWheelerSlotsAvailable[i] = false;
+                        slots.noOfTwoWheelerSlotsAvailable[i] = false;
                         isAvailable = true;
                         availableSlot= i+1;
                         break;
                     }
                 }
             }
-            else if (slots.vehicleType == Convert.ToInt32(VehicleTypes.fourWheeler))
+            else if (slots.vehicleType == Convert.ToInt32(VehicleType.fourWheeler))
             {
-                for (int i = 0; i < slots.fourWheelerSlots; i++)
+                for (int i = 0; i < slots.noOfFourWheelerSlots; i++)
                 {
-                    if (slots.fourWheelerSlotsAvailable[i] == true)
+                    if (slots.noOfFourWheelerSlotsAvailable[i] == true)
                     {
-                        slots.fourWheelerSlotsAvailable[i] = false;
+                        slots.noOfFourWheelerSlotsAvailable[i] = false;
                         isAvailable = true;
-                        availableSlot = i + slots.twoWheelerSlots + 1;
+                        availableSlot = i + slots.noOfTwoWheelerSlots + 1;
                         break;
                     }
                 }
             }
-            else if (slots.vehicleType == Convert.ToInt32(VehicleTypes.heavyVehicle))
+            else if (slots.vehicleType == Convert.ToInt32(VehicleType.heavyVehicle))
             {
-                for (int i = 0; i < slots.heavyVehicleSlots; i++)
+                for (int i = 0; i < slots.noOfHeavyVehicleSlots; i++)
                 {
-                    if (slots.heavyVehicleSlotsAvailable[i] == true)
+                    if (slots.noOfHeavyVehicleSlotsAvailable[i] == true)
                     {
-                        slots.heavyVehicleSlotsAvailable[i] = false;
+                        slots.noOfHeavyVehicleSlotsAvailable[i] = false;
                         isAvailable = true;
-                        availableSlot = i + slots.fourWheelerSlots + slots.twoWheelerSlots + 1;
+                        availableSlot = i + slots.noOfFourWheelerSlots + slots.noOfTwoWheelerSlots + 1;
                         break;
                     }
                 }
@@ -143,7 +143,7 @@ namespace ParkingLot.Services
             Vehicle new_vehicle = new Vehicle();
             Console.WriteLine("Enter a valid Vehicle Number");
             string vehicleNumber = Console.ReadLine();
-            if (ValidVehicle(vehicleNumber))
+            if (IsValidVehicle(vehicleNumber))
             {
                 new_vehicle.number = vehicleNumber;
             }
@@ -156,18 +156,15 @@ namespace ParkingLot.Services
             new_vehicle.slot = availableSlot;
             new_vehicle.inTime = DateTime.Now.ToString("hh:mm:ss tt");
             slots.vehicles[availableSlot-1] = new_vehicle;
-            Console.WriteLine();
             Console.WriteLine("Your Ticket is Confirmed.");
-            Console.WriteLine();
             Console.WriteLine("Your Slot Number is " + availableSlot);
             Console.WriteLine("Vehicle In Time :" + new_vehicle.inTime.ToString());
-            Console.WriteLine();
         }
         public void Exit()
         {
             Console.WriteLine("Enter a Valid Vehicle Number");
             string vehicleNumber = Console.ReadLine();
-            if (!ValidVehicle(vehicleNumber))
+            if (!IsValidVehicle(vehicleNumber))
             {
                 Exit();
                 return;
@@ -180,18 +177,18 @@ namespace ParkingLot.Services
                 Exit();
                 return;
             }
-            if (slot<slots.twoWheelerSlots)
+            if (slot<slots.noOfTwoWheelerSlots)
             {
-                slots.twoWheelerSlotsAvailable[slot-1] = true;
+                slots.noOfTwoWheelerSlotsAvailable[slot-1] = true;
                 Console.WriteLine(slot);
             }
-            else if (slot < slots.fourWheelerSlots)
+            else if (slot < slots.noOfFourWheelerSlots)
             {
-                slots.fourWheelerSlotsAvailable[slot-slots.twoWheelerSlots -1] = true;
+                slots.noOfFourWheelerSlotsAvailable[slot-slots.noOfTwoWheelerSlots -1] = true;
             }
-            else if (slot < slots.heavyVehicleSlots)
+            else if (slot < slots.noOfHeavyVehicleSlots)
             {
-                slots.heavyVehicleSlotsAvailable[slot-slots.fourWheelerSlots -slots.twoWheelerSlots - 1] = true;
+                slots.noOfHeavyVehicleSlotsAvailable[slot-slots.noOfFourWheelerSlots -slots.noOfTwoWheelerSlots - 1] = true;
             }
             string outTime = DateTime.Now.ToString("hh:mm:ss tt");
             slots.vehicles[slot - 1].outTime = outTime;

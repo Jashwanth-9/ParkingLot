@@ -6,14 +6,14 @@ namespace ParkingLot.Models
 {
     public class ParkingSlots
     {
-        public int twoWheelerSlots;
-        public int fourWheelerSlots;
-        public int heavyVehicleSlots;
+        public int noOfTwoWheelerSlots;
+        public int noOfFourWheelerSlots;
+        public int noOfHeavyVehicleSlots;
         public int entryExit;
         public int vehicleType;
-        public List<bool> twoWheelerSlotsAvailable = new List<bool>();
-        public List<bool> fourWheelerSlotsAvailable = new List<bool>();
-        public List<bool> heavyVehicleSlotsAvailable = new List<bool>();
+        public List<bool> noOfTwoWheelerSlotsAvailable = new List<bool>();
+        public List<bool> noOfFourWheelerSlotsAvailable = new List<bool>();
+        public List<bool> noOfHeavyVehicleSlotsAvailable = new List<bool>();
         public List<Vehicle> vehicles = new List<Vehicle>();
 
     }

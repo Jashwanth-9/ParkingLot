@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ParkingLot.Models.Enums
 {
-    public enum VehicleTypes
+    public enum VehicleType
     {
         twoWheeler=1,
         fourWheeler=2,

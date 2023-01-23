@@ -18,8 +18,8 @@ namespace ParkingLot
                 int vehicleStatus = parkingService.EntryExit();
                 if (vehicleStatus == Convert.ToInt32(VehicleStatus.entry))
                 {
-                    parkingService.VehicleType();
-                    parkingService.GetEntry();
+                    parkingService.GetVehicleType();
+                    parkingService.CanVehicleEnter();
                 }
                 else if(vehicleStatus == Convert.ToInt32(VehicleStatus.exit))
                 {
