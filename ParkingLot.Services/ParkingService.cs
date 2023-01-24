@@ -10,14 +10,14 @@ namespace ParkingLot.Services
     public class ParkingService : IParkingService
     {
         ParkingSlots parkingSlots;
-        private ParkingService(ParkingSlots slots)
+        public ParkingService(ParkingSlots slots)
         {
             this.parkingSlots = slots;
         }
         public void SetSlots(int noOfTwoWheelerSlots,int noOfFourWheelerSlots,int noOfHeavyVehicleSlots)
         {
             Vehicle vehicle= new Vehicle();
-            parkingSlots.noOfTwoWheelerSlots = noOfTwoWheelerSlots;
+            parkingSlots.noOfTwoWheelerSlots=noOfTwoWheelerSlots;
             parkingSlots.noOfFourWheelerSlots = noOfFourWheelerSlots;
             parkingSlots.noOfHeavyVehicleSlots = noOfHeavyVehicleSlots;
             for (int i = 0; i < noOfTwoWheelerSlots; i++)
