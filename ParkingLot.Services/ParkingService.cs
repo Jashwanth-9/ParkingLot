@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using ParkingLot.Models;
 using ParkingLot.Models.Enums;
+using ParkingLot.Services.Extensions;
 using static System.Reflection.Metadata.BlobBuilder;
 
 namespace ParkingLot.Services
@@ -14,40 +15,28 @@ namespace ParkingLot.Services
         {
             this.parkingSlots = slots;
         }
-        public void SetSlots(int noOfTwoWheelerSlots,int noOfFourWheelerSlots,int noOfHeavyVehicleSlots)
+        private void SetSlots(int noOfTwoWheelerSlots,int noOfFourWheelerSlots,int noOfHeavyVehicleSlots)
         {
             Vehicle vehicle= new Vehicle();
             parkingSlots.noOfTwoWheelerSlots=noOfTwoWheelerSlots;
             parkingSlots.noOfFourWheelerSlots = noOfFourWheelerSlots;
             parkingSlots.noOfHeavyVehicleSlots = noOfHeavyVehicleSlots;
-            for (int i = 0; i < noOfTwoWheelerSlots; i++)
-            {
-                parkingSlots.noOfTwoWheelerSlotsAvailable.Add(true);
-            }
-            for (int i = 0; i < noOfFourWheelerSlots; i++)
-            {
-                parkingSlots.noOfFourWheelerSlotsAvailable.Add(true);
-            }
-            for (int i = 0; i < noOfHeavyVehicleSlots; i++)
-            {
-                parkingSlots.noOfHeavyVehicleSlotsAvailable.Add(true);
-            }
-            int totalSlots=noOfTwoWheelerSlots +noOfFourWheelerSlots +noOfHeavyVehicleSlots;
-            for(int i = 0; i < totalSlots; i++)
-            {
-                parkingSlots.vehicles.Add(vehicle);
-            }
+            int totalSlots = noOfTwoWheelerSlots + noOfFourWheelerSlots + noOfHeavyVehicleSlots;
+            parkingSlots.noOfTwoWheelerSlotsAvailable = Enumerable.Range(0, noOfTwoWheelerSlots).Select(n => true).ToList();
+            parkingSlots.noOfFourWheelerSlotsAvailable = Enumerable.Range(0, noOfFourWheelerSlots).Select(n => true).ToList();
+            parkingSlots.noOfHeavyVehicleSlotsAvailable = Enumerable.Range(0, noOfHeavyVehicleSlots).Select(n => true).ToList();
+            parkingSlots.vehicles = Enumerable.Range(0, totalSlots).Select(n => vehicle).ToList();
         }
         public void Initializer()
         {
             ParkingService setSlots=new ParkingService(parkingSlots);
             Console.WriteLine("Welcome to the parking");
             Console.WriteLine("Specify total number of Two wheeler slots");
-            int noOfTwoWheelerSlots=Convert.ToInt32(Console.ReadLine());
+            int noOfTwoWheelerSlots=Console.ReadLine()!.ToInt32();
             Console.WriteLine("Specify total number of Four wheeler slots");
-            int noOfFourWheelerSlots = Convert.ToInt32(Console.ReadLine());
+            int noOfFourWheelerSlots = Console.ReadLine()!.ToInt32();
             Console.WriteLine("Specify total number of Heavy Vehicle slots");
-            int noOfHeavyVehicleSlots = Convert.ToInt32(Console.ReadLine());
+            int noOfHeavyVehicleSlots = Console.ReadLine()!.ToInt32();
             setSlots.SetSlots(noOfTwoWheelerSlots, noOfFourWheelerSlots,noOfHeavyVehicleSlots);
         }
         public int EntryExit()
@@ -56,8 +45,8 @@ namespace ParkingLot.Services
             Console.WriteLine("1.Entry");
             Console.WriteLine("2.Exit");
             Console.WriteLine("3.Stop");
-            int vehicleStatus = Convert.ToInt32(Console.ReadLine());
-            if (vehicleStatus == ExtensionMethods.GetIndex(VehicleStatus.entry) || vehicleStatus == ExtensionMethods.GetIndex(VehicleStatus.exit) || vehicleStatus == ExtensionMethods.GetIndex(VehicleStatus.stop))
+            int vehicleStatus = Console.ReadLine()!.ToInt32();
+            if (vehicleStatus == VehicleStatus.entry.GetIndex() || vehicleStatus == VehicleStatus.exit.GetIndex() || vehicleStatus == VehicleStatus.stop.GetIndex())
             {
                 return vehicleStatus;
             }
@@ -72,14 +61,14 @@ namespace ParkingLot.Services
         {
             VehicleService vehicleService=new VehicleService(parkingSlots);
             Console.WriteLine("Enter a Valid Vehicle Number");
-            string vehicleNumber = Console.ReadLine();
-            if (!vehicleService.IsValidVehicle(vehicleNumber))
+            string vehicleNumber = Console.ReadLine()!;
+            if (!vehicleService.IsValidVehicle(vehicleNumber!))
             {
                 Exit();
                 return;
             }
             Console.WriteLine("Enter the slot number");
-            int slot = Convert.ToInt32(Console.ReadLine());
+            int slot = Console.ReadLine()!.ToInt32();
             if (parkingSlots.vehicles[slot-1].number != vehicleNumber) 
             {
                 Console.WriteLine("Enter the correct slot Number and Vehicle Number");
@@ -99,7 +88,7 @@ namespace ParkingLot.Services
             {
                 parkingSlots.noOfHeavyVehicleSlotsAvailable[slot-parkingSlots.noOfFourWheelerSlots -parkingSlots.noOfTwoWheelerSlots - 1] = true;
             }
-            string outTime = DateTime.Now.ToString("hh:mm:ss tt");
+            string outTime = DateTime.Now.Tohhmmsstt();
             parkingSlots.vehicles[slot - 1].outTime = outTime;
             Console.WriteLine("Exit Successful");
             Console.WriteLine("Vehicle Number :" + parkingSlots.vehicles[slot - 1].number);

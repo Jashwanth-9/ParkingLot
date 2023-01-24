@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using ParkingLot.Services.Extensions;
 
 namespace ParkingLot.Services
 {
@@ -22,7 +23,7 @@ namespace ParkingLot.Services
             Console.WriteLine("1. Two Wheeler");
             Console.WriteLine("2. Four Wheeler");
             Console.WriteLine("3. Heavy Vehicle");
-            int vehicleType = Convert.ToInt32(Console.ReadLine());
+            int vehicleType = Console.ReadLine()!.ToInt32();
             Console.WriteLine();
             parkingSlots.vehicleType = vehicleType;
         }
@@ -40,43 +41,34 @@ namespace ParkingLot.Services
         {
             bool isAvailable = false;
             int availableSlot = 100;
-            if (parkingSlots.vehicleType == ExtensionMethods.GetIndex(VehicleType.twoWheeler))
+            if (parkingSlots.vehicleType == VehicleType.twoWheeler.GetIndex())
             {
-                for (int i = 0; i < parkingSlots.noOfTwoWheelerSlots; i++)
+                int slot=parkingSlots.noOfTwoWheelerSlotsAvailable.IndexOf(true);
+                if(slot >= 0)
                 {
-                    if (parkingSlots.noOfTwoWheelerSlotsAvailable[i] == true)
-                    {
-                        parkingSlots.noOfTwoWheelerSlotsAvailable[i] = false;
-                        isAvailable = true;
-                        availableSlot = i + 1;
-                        break;
-                    }
+                    parkingSlots.noOfTwoWheelerSlotsAvailable[slot] = false;
+                    isAvailable = true;
+                    availableSlot = slot + 1;
                 }
             }
-            else if (parkingSlots.vehicleType == ExtensionMethods.GetIndex(VehicleType.fourWheeler))
+            else if (parkingSlots.vehicleType == VehicleType.fourWheeler.GetIndex())
             {
-                for (int i = 0; i < parkingSlots.noOfFourWheelerSlots; i++)
+                int slot = parkingSlots.noOfFourWheelerSlotsAvailable.IndexOf(true);
+                if (slot >= 0)
                 {
-                    if (parkingSlots.noOfFourWheelerSlotsAvailable[i] == true)
-                    {
-                        parkingSlots.noOfFourWheelerSlotsAvailable[i] = false;
-                        isAvailable = true;
-                        availableSlot = i + parkingSlots.noOfTwoWheelerSlots + 1;
-                        break;
-                    }
-                }
+                    parkingSlots.noOfFourWheelerSlotsAvailable[slot] = false;
+                    isAvailable = true;
+                    availableSlot = slot + parkingSlots.noOfTwoWheelerSlots + 1;
+                }    
             }
-            else if (parkingSlots.vehicleType == ExtensionMethods.GetIndex(VehicleType.heavyVehicle))
+            else if (parkingSlots.vehicleType == VehicleType.heavyVehicle.GetIndex())
             {
-                for (int i = 0; i < parkingSlots.noOfHeavyVehicleSlots; i++)
+                int slot=parkingSlots.noOfHeavyVehicleSlotsAvailable.IndexOf(true);
+                if (slot >= 0)
                 {
-                    if (parkingSlots.noOfHeavyVehicleSlotsAvailable[i] == true)
-                    {
-                        parkingSlots.noOfHeavyVehicleSlotsAvailable[i] = false;
-                        isAvailable = true;
-                        availableSlot = i + parkingSlots.noOfFourWheelerSlots + parkingSlots.noOfTwoWheelerSlots + 1;
-                        break;
-                    }
+                    parkingSlots.noOfHeavyVehicleSlotsAvailable[slot] = false;
+                    isAvailable = true;
+                    availableSlot = slot + parkingSlots.noOfFourWheelerSlots + parkingSlots.noOfTwoWheelerSlots + 1;
                 }
             }
             if (isAvailable)
@@ -88,11 +80,11 @@ namespace ParkingLot.Services
             Console.WriteLine();
             return false;
         }
-        public void GenerateTicket(int availableSlot)
+        private void GenerateTicket(int availableSlot)
         {
             Vehicle new_vehicle = new Vehicle();
             Console.WriteLine("Enter a valid Vehicle Number");
-            string vehicleNumber = Console.ReadLine();
+            string vehicleNumber = Console.ReadLine()!;
             if (IsValidVehicle(vehicleNumber))
             {
                 new_vehicle.number = vehicleNumber;
@@ -104,7 +96,7 @@ namespace ParkingLot.Services
             }
             new_vehicle.type = parkingSlots.vehicleType;
             new_vehicle.slot = availableSlot;
-            new_vehicle.inTime = DateTime.Now.ToString("hh:mm:ss tt");
+            new_vehicle.inTime = DateTime.Now.Tohhmmsstt();
             parkingSlots.vehicles[availableSlot - 1] = new_vehicle;
             Console.WriteLine("Your Ticket is Confirmed.");
             Console.WriteLine("Your Slot Number is " + availableSlot);

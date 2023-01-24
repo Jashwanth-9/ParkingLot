@@ -8,8 +8,8 @@ namespace ParkingLot.Models.Enums
 {
     public enum VehicleType
     {
-        twoWheeler=1,
-        fourWheeler=2,
-        heavyVehicle=3
+        twoWheeler = 1,
+        fourWheeler = 2,
+        heavyVehicle = 3,
     }
 }

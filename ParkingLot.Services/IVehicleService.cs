@@ -11,6 +11,5 @@ namespace ParkingLot.Services
         void GetVehicleType();
         bool IsValidVehicle(string vehicleNumber);
         bool CanVehicleEnter();
-        void GenerateTicket(int availableSlot);
     }
 }

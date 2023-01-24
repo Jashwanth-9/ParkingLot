@@ -12,7 +12,6 @@ namespace ParkingLot.Services
 {
     public interface IParkingService
     {
-        void SetSlots(int noOfTwoWheelerSlots, int noOfFourWheelerSlots, int noOfHeavyVehicleSlots);
         void Initializer();
         int EntryExit();
         void Exit();

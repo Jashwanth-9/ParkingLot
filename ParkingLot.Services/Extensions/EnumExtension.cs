@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ParkingLot.Services
+namespace ParkingLot.Services.Extensions
 {
-    public static class ExtensionMethods
+    public static class EnumExtension
     {
         public static int GetIndex(this VehicleType vehicle)
         {

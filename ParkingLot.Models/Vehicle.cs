@@ -8,10 +8,10 @@ namespace ParkingLot.Models
 {
     public class Vehicle
     {
-        public string number;
+        public string? number;
         public int type;
         public int slot;
-        public string inTime;
-        public string outTime;
+        public string? inTime;
+        public string? outTime;
     }
 }

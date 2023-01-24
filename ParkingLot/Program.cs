@@ -2,6 +2,7 @@
 using ParkingLot.Services;
 using ParkingLot.Models;
 using ParkingLot.Models.Enums;
+using ParkingLot.Services.Extensions;
 
 namespace ParkingLot
 {
@@ -10,24 +11,24 @@ namespace ParkingLot
         public static void Main(string[] args)
         {
             ParkingSlots parkingSlots = new ParkingSlots();
-            ParkingService parkingService= new ParkingService(parkingSlots);
-            VehicleService vehicleService= new VehicleService(parkingSlots);
+            IParkingService parkingService= new ParkingService(parkingSlots);   // registration 
+            IVehicleService vehicleService= new VehicleService(parkingSlots);
             parkingService.Initializer();
             bool stop = false;
             while(!stop)
             {
                 int vehicleStatus = parkingService.EntryExit();
-                if (vehicleStatus == Convert.ToInt32(VehicleStatus.entry))
+                if (vehicleStatus == VehicleStatus.entry.GetIndex())
                 {
                     vehicleService.GetVehicleType();
                     vehicleService.CanVehicleEnter();
                 }
-                else if(vehicleStatus == Convert.ToInt32(VehicleStatus.exit))
+                else if(vehicleStatus == VehicleStatus.exit.GetIndex())
                 {
                     parkingService.Exit();
 
                 }
-                else if(vehicleStatus == Convert.ToInt32(VehicleStatus.stop))
+                else if(vehicleStatus == VehicleStatus.stop.GetIndex())
                 {
                     stop = true;
                 }
