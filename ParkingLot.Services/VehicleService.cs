@@ -12,7 +12,7 @@ namespace ParkingLot.Services
 {
     public class VehicleService : IVehicleService
     {
-        ParkingSlots parkingSlots;
+        private ParkingSlots parkingSlots;
         public VehicleService(ParkingSlots parkingSlots)
         {
             this.parkingSlots = parkingSlots;

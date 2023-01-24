@@ -10,7 +10,7 @@ namespace ParkingLot.Services
 {
     public class ParkingService : IParkingService
     {
-        ParkingSlots parkingSlots;
+        private ParkingSlots parkingSlots;
         public ParkingService(ParkingSlots slots)
         {
             this.parkingSlots = slots;
@@ -57,6 +57,7 @@ namespace ParkingLot.Services
             }
             return 0;
         }
+   
         public void Exit()
         {
             VehicleService vehicleService=new VehicleService(parkingSlots);
