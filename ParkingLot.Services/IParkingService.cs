@@ -15,10 +15,6 @@ namespace ParkingLot.Services
         void SetSlots(int noOfTwoWheelerSlots, int noOfFourWheelerSlots, int noOfHeavyVehicleSlots);
         void Initializer();
         int EntryExit();
-        void GetVehicleType();
-        bool IsValidVehicle(string str);
-        bool CanVehicleEnter();
-        void GenerateTicket(int availableSlot);
         void Exit();
     }
 }

@@ -9,8 +9,9 @@ namespace ParkingLot
     {
         public static void Main(string[] args)
         {
-            ParkingSlots slots = new ParkingSlots();
-            ParkingService parkingService= new ParkingService(slots);
+            ParkingSlots parkingSlots = new ParkingSlots();
+            ParkingService parkingService= new ParkingService(parkingSlots);
+            VehicleService vehicleService= new VehicleService(parkingSlots);
             parkingService.Initializer();
             bool stop = false;
             while(!stop)
@@ -18,8 +19,8 @@ namespace ParkingLot
                 int vehicleStatus = parkingService.EntryExit();
                 if (vehicleStatus == Convert.ToInt32(VehicleStatus.entry))
                 {
-                    parkingService.GetVehicleType();
-                    parkingService.CanVehicleEnter();
+                    vehicleService.GetVehicleType();
+                    vehicleService.CanVehicleEnter();
                 }
                 else if(vehicleStatus == Convert.ToInt32(VehicleStatus.exit))
                 {
